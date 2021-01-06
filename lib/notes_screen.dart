@@ -42,11 +42,7 @@ class _NotesScreenState extends State<NotesScreen> {
           ),
           backgroundColor: Colors.black45,
         ),
-        body: Column(
-          children: [
-            NoteStream(),
-          ],
-        ));
+        body: NoteStream());
   }
 }
 
@@ -72,16 +68,14 @@ class NoteStream extends StatelessWidget {
           messageBubble.add(NoteBubble(
               sender: msgSender,
               text: msgText,
-              isMe: currentUser == user.email,
+              // isMe: currentUser == user.email,
               title: title,
               date: date));
         }
 
-        return Expanded(
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-            children: messageBubble,
-          ),
+        return ListView(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+          children: messageBubble,
         );
       },
     );
@@ -97,8 +91,8 @@ class NoteBubble extends StatelessWidget {
   NoteBubble({this.sender, this.text, this.isMe, this.title, this.date});
   //String formatter = DateFormat('yMd').format(date);
 
-  DateTime dateToday =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  // DateTime dateToday =
+  //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   // 2016-01-25
   @override
   Widget build(BuildContext context) {
@@ -140,13 +134,13 @@ class NoteBubble extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Created:$dateToday',
+                    'Created:',
                     style: TextStyle(
                       color: Colors.black38,
                     ),
                   ),
                   Text(
-                    'Edited At:$dateToday',
+                    'Edited At:',
                     style: TextStyle(
                       color: Colors.black38,
                     ),
