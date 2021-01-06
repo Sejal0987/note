@@ -37,14 +37,6 @@ class _AddState extends State<Add> {
     }
   }
 
-  void getStream() async {
-    await for (var snapShot in _fireStore.collection('notes').snapshots()) {
-      for (var msg in snapShot.docs) {
-        print(msg.data());
-      }
-    }
-  }
-
   void getImage() async {
     final pickedFile = await ImagePicker()
         .getImage(source: ImageSource.camera, imageQuality: 50, maxWidth: 150);
@@ -75,7 +67,11 @@ class _AddState extends State<Add> {
               color: Colors.white,
             ),
             onPressed: () async {
-              _fireStore.collection('notes').add({
+              await _fireStore
+                  .collection('notes')
+                  .doc(user.uid)
+                  .collection('mynotes')
+                  .add({
                 'sender': user.email,
                 'title': title,
                 'note': note,
@@ -99,11 +95,14 @@ class _AddState extends State<Add> {
             style: TextStyle(
               fontSize: 25.0,
               color: Colors.black,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w900,
             ),
             decoration: InputDecoration(
               hintText: 'Title',
-              hintStyle: TextStyle(color: Colors.black54, fontSize: 25.0),
+              hintStyle: TextStyle(
+                color: Colors.black54,
+                fontSize: 25.0,
+              ),
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
