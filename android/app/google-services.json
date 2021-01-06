@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "932042069349",
+    "project_id": "notes-5ee5d",
+    "storage_bucket": "notes-5ee5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932042069349:android:95d6ceb7608b9f7aa03d8c",
+        "android_client_info": {
+          "package_name": "com.sejal.notes_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932042069349-c0ndvsuog6rtiu0s36eglc4rmac8iqd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAICb31XnGR80J_VZ_MrTVTb4mP1U_XV2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932042069349-c0ndvsuog6rtiu0s36eglc4rmac8iqd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
