@@ -1,8 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'adding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'edit_note.dart';
+import 'package:intl/intl.dart';
+import 'add_notes.dart';
+
+DateFormat dateFormat = DateFormat("yyyy-MM-dd (HH:mm)");
 
 User user;
 
@@ -44,11 +49,12 @@ class _NotesScreenState extends State<NotesScreen> {
           actions: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.settings,
+                Icons.logout,
                 color: Colors.white,
               ),
               onPressed: () {
-                // do something
+                _auth.signOut();
+                Navigator.pushNamed(context, AddNotes.id); // do something
               },
             )
           ],
@@ -90,7 +96,13 @@ class NoteStream extends StatelessWidget {
           final String msgText = msg.data()['note'];
           final msgSender = msg.data()['sender'];
           final title = msg.data()['title'];
-          final date = msg.data()['date'];
+          final date2 = msg.data()['createdAt'].toDate();
+          final date = msg.data()['date'].toDate();
+          String dates = dateFormat.format(date);
+          String dates2 = dateFormat.format(date2);
+          // DateTime dates =
+          //     DateTime.fromMicrosecondsSinceEpoch(date.microsecondsSinceEpoch);
+
           final currentUser = msgSender;
           noteBubble.add(NoteBubble(
               sender: msgSender,
@@ -98,7 +110,8 @@ class NoteStream extends StatelessWidget {
               documents: msg,
               // isMe: currentUser == user.email,
               title: title,
-              date: date));
+              date: dates,
+              date2: dates2));
           i++;
         }
 
@@ -117,12 +130,14 @@ class NoteBubble extends StatelessWidget {
   final DocumentSnapshot documents;
   final String title;
   final date;
-  NoteBubble({this.sender, this.text, this.documents, this.title, this.date});
-  //String formatter = DateFormat('yMd').format(date);
-
-  // DateTime dateToday =
-  //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  // 2016-01-25
+  final date2;
+  NoteBubble(
+      {this.sender,
+      this.text,
+      this.documents,
+      this.title,
+      this.date,
+      this.date2});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -137,7 +152,7 @@ class NoteBubble extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         child: Material(
           borderRadius: BorderRadius.circular(30.0),
-          color: Colors.black87,
+          color: Colors.black87.withOpacity(0.8),
           child: Padding(
             padding: EdgeInsets.only(top: 30.0),
             child: Column(
@@ -163,6 +178,7 @@ class NoteBubble extends StatelessWidget {
                       '$title',
                       style: TextStyle(
                         color: Colors.white70,
+                        fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
                     ),
@@ -177,7 +193,7 @@ class NoteBubble extends StatelessWidget {
                   child: Text(
                     '$text',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.black.withOpacity(0.5),
                     ),
                   ),
                 ),
@@ -187,15 +203,15 @@ class NoteBubble extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Created:',
+                        'Created At: $date2',
                         style: TextStyle(
-                          color: Colors.black38,
+                          color: Colors.white70,
                         ),
                       ),
                       Text(
-                        'Edited At:',
+                        'Edited At: $date',
                         style: TextStyle(
-                          color: Colors.black38,
+                          color: Colors.white70,
                         ),
                       ),
                     ],
